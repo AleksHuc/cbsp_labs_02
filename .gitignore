@@ -1,0 +1,26 @@
+# Build output
+target/
+*.class
+
+# Local IDE settings
+.idea/
+.vscode/
+*.iml
+
+# Local assistant and credential settings
+.agents/
+.codex/
+.aws/
+
+# Generated audio, plots and submission archives
+*.wav
+*.pcm
+*.mp3
+*.flac
+*.png
+*.svg
+*.zip
+
+# Operating system files
+.DS_Store
+Thumbs.db
