@@ -62,6 +62,9 @@ Generate a sine signal using the assigned frequency, amplitude and duration.
 Support an arbitrary phase and implement common attenuation so that signals
 can be played within the specified peak limit.
 
+Expected sound: a steady, pure tone with constant pitch and loudness during
+the signal, possibly with a brief click at the start or end.
+
 Add your code in:
 
 - `SignalGenerator.java`: `generateSine(frequency, amplitude, phase, sampleRate, duration)`.
@@ -110,6 +113,10 @@ Build a signal by adding harmonics of the assigned fundamental frequency.
 Implement buffer mixing, then compare the pure fundamental, the harmonic
 signal and a mixture with a stronger fundamental.
 
+Expected sound: a pure tone followed by a brighter, richer tone at the same
+fundamental pitch, then a tone with a more prominent fundamental and a less
+bright character than the harmonic signal.
+
 Add your code in:
 
 - `SignalGenerator.java`: `generateAdditive(fundamentalFrequency, harmonicAmplitudes, sampleRate, duration)`.
@@ -143,6 +150,9 @@ Apply a gradual increase and decrease in amplitude at the ends of a signal.
 Compare the assigned tone with and without these fades and listen for the
 change in clicks at the buffer boundaries.
 
+Expected sound: the faded tone should enter and leave smoothly, reducing
+boundary clicks while preserving the pitch and the steady middle section.
+
 Add your code in:
 
 - `Envelope.java`: `applyFade(samples, sampleRate, fadeInSeconds, fadeOutSeconds)`.
@@ -172,6 +182,10 @@ mvn -q compile exec:java -Dexec.args="--task3 11111111"
 Generate and play the assigned sine and harmonic signal using JSyn oscillators.
 Build the audio graph and manage its lifecycle instead of generating a sample
 buffer for `AudioOutput`.
+
+Expected sound: a steady pure tone followed by a richer harmonic tone,
+similar in pitch and timbre to the corresponding sounds in Tasks 1 and 2,
+although their loudness may differ.
 
 Add your code in:
 
@@ -209,6 +223,9 @@ Combine two sine tones with nearby frequencies and observe the periodic
 changes in loudness. Compare how the beating speeds up as the frequency
 difference increases.
 
+Expected sound: a tone whose loudness repeatedly swells and fades, with
+faster pulsations in each successive comparison.
+
 No new method is required. Reuse your implementations in:
 
 - `SignalGenerator.java`: `generateSine(...)`.
@@ -235,6 +252,9 @@ mvn -q compile exec:java -Dexec.args="--task5 11111111"
 Generate reproducible white noise with uniformly distributed sample values.
 Measure its mean and RMS to compare the observed signal with the expected
 statistical properties.
+
+Expected sound: a continuous broadband hiss, similar to radio static,
+without a clear musical pitch or regular pulsation.
 
 Add your code in:
 
@@ -269,6 +289,10 @@ Shape a short sine tone with a triangular amplitude envelope. Compare different
 attack times to hear how the envelope changes the sharpness of the onset while
 frequency and total tone duration stay fixed.
 
+Expected sound: three groups of six short tonal taps separated by silence,
+with a sharp onset for the shortest attack and progressively softer onsets
+for the longer attacks.
+
 Add your code in:
 
 - `Envelope.java`: `applyPercussiveEnvelope(samples, sampleRate, attackSeconds)`.
@@ -301,6 +325,10 @@ mvn -q compile exec:java -Dexec.args="--task7 11111111"
 Generate a wave packet by averaging cosine components with nearby frequencies.
 Align them at a chosen time and compare how increasing their frequency span
 narrows the central packet.
+
+Expected sound: three short tones around 440 Hz whose loudness swells near
+the middle, with the main swell becoming briefer and more concentrated as
+the number of components increases.
 
 Add your code in:
 
