@@ -26,7 +26,7 @@ program prints your assigned parameters for the tasks; do not hard-code them
 or change the parameter generator.
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--parameters 11111111"
+mvn -q compile exec:java "-Dexec.args=--parameters 11111111"
 ```
 
 For each task below, replace `11111111` with your student ID. `--checkN` runs
@@ -103,8 +103,8 @@ Verify independently:
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check1 11111111"
-mvn -q compile exec:java -Dexec.args="--task1 11111111"
+mvn -q compile exec:java "-Dexec.args=--check1 11111111"
+mvn -q compile exec:java "-Dexec.args=--task1 11111111"
 ```
 
 ## Task 2 — Harmonics, mixing and attenuation
@@ -140,8 +140,8 @@ changes the balance between the fundamental and higher harmonics.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check2 11111111"
-mvn -q compile exec:java -Dexec.args="--task2 11111111"
+mvn -q compile exec:java "-Dexec.args=--check2 11111111"
+mvn -q compile exec:java "-Dexec.args=--task2 11111111"
 ```
 
 ## Task 3 — End fades
@@ -173,8 +173,8 @@ of ones to inspect the ramps. Tasks 5 and 8 reuse this method with 10 ms fades.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check3 11111111"
-mvn -q compile exec:java -Dexec.args="--task3 11111111"
+mvn -q compile exec:java "-Dexec.args=--check3 11111111"
+mvn -q compile exec:java "-Dexec.args=--task3 11111111"
 ```
 
 ## Task 4 — JSyn
@@ -214,7 +214,7 @@ Task 4 requires audio playback; `--check4` is not supported.
 Run and listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--task4 11111111"
+mvn -q compile exec:java "-Dexec.args=--task4 11111111"
 ```
 
 ## Task 5 — Beating
@@ -243,8 +243,8 @@ amplitude changes with the printed beat frequency `abs(f2-f1)`.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check5 11111111"
-mvn -q compile exec:java -Dexec.args="--task5 11111111"
+mvn -q compile exec:java "-Dexec.args=--check5 11111111"
+mvn -q compile exec:java "-Dexec.args=--task5 11111111"
 ```
 
 ## Task 6 — White noise
@@ -279,8 +279,8 @@ verify reproducibility and bounds yourself.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check6 11111111"
-mvn -q compile exec:java -Dexec.args="--task6 11111111"
+mvn -q compile exec:java "-Dexec.args=--check6 11111111"
+mvn -q compile exec:java "-Dexec.args=--task6 11111111"
 ```
 
 ## Task 7 — Short percussive tones
@@ -316,8 +316,8 @@ attack leaves a shorter release.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check7 11111111"
-mvn -q compile exec:java -Dexec.args="--task7 11111111"
+mvn -q compile exec:java "-Dexec.args=--check7 11111111"
+mvn -q compile exec:java "-Dexec.args=--task7 11111111"
 ```
 
 ## Task 8 — Wave packet
@@ -359,8 +359,8 @@ the printed peak alone does not show their temporal shape.
 Check without playback, then listen:
 
 ```bash
-mvn -q compile exec:java -Dexec.args="--check8 11111111"
-mvn -q compile exec:java -Dexec.args="--task8 11111111"
+mvn -q compile exec:java "-Dexec.args=--check8 11111111"
+mvn -q compile exec:java "-Dexec.args=--task8 11111111"
 ```
 
 ## Submission
