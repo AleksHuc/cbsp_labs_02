@@ -5,13 +5,13 @@ public final class SignalAnalysis {
 
     /** Task 6: arithmetic mean of a non-empty finite sample buffer. */
     public static double mean(double[] samples) {
-        // TODO: implement Task 6 according to README.md.
-        throw new UnsupportedOperationException("Task 6: mean is not implemented.");
+        // TODO: Task 6: return the arithmetic mean of the samples.
+        throw new UnsupportedOperationException("TODO: mean");
     }
 
     /** Task 6: square root of the mean squared sample value. */
     public static double rms(double[] samples) {
-        // TODO: implement Task 6 according to README.md.
-        throw new UnsupportedOperationException("Task 6: rms is not implemented.");
+        // TODO: Task 6: return the square root of the mean squared sample value.
+        throw new UnsupportedOperationException("TODO: rms");
     }
 }

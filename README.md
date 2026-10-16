@@ -33,7 +33,7 @@ For each task below, replace `11111111` with your student ID. `--checkN` runs
 without playback and `--taskN` also plays the sound; Task 4 supports playback
 only. `compile` rebuilds your code and `-q` hides Maven informational messages.
 Start listening at low device volume. The checks provide basic diagnostics,
-so also verify sample values and invalid inputs yourself.
+so also verify sample values yourself.
 
 ## Signal conventions
 
@@ -41,12 +41,13 @@ so also verify sample values and invalid inputs yourself.
   in radians. Assigned sample rate: 44,100 Hz.
 - `N = Math.round(sampleRate * duration)`; indices `0 <= n < N`,
   `t = n / (double) sampleRate`. Do not add an endpoint sample.
-- Require positive sample rate, finite positive duration, and rounded sample
-  count from 1 through `Integer.MAX_VALUE`. Validate before casting/allocating.
-- Require finite numerical inputs, `0 < frequency < sampleRate/2.0`, and
-  generator amplitude in `[0,1]`. Zero amplitude is valid silence.
-- Required arrays must be non-null, non-empty and contain finite samples.
-- Throw `IllegalArgumentException` for invalid inputs before modifying buffers.
+- Assume all input data are valid. You do not need to implement input
+  validation or throw exceptions for invalid arguments.
+- Sample rates and durations are positive, and rounded sample counts are
+  between 1 and `Integer.MAX_VALUE`. Numerical inputs and samples are finite,
+  `0 < frequency < sampleRate/2.0`, and generator amplitudes are in `[0,1]`.
+  Zero amplitude is valid silence.
+- Arrays are non-null and non-empty; buffers passed to `mix` have equal lengths.
 - Generators return new buffers. Methods documented as in-place modify their
   supplied buffers without changing length.
 - Intermediate sums may exceed `[-1,1]`. Before playback, attenuate with one
@@ -77,10 +78,10 @@ x[n] = A * sin(2*pi*f*n/fs + phase)
 ```
 
 Use floating-point division for time and return a new buffer without playback
-or normalization. Validate inputs according to the signal conventions above.
+or normalization. Assume valid inputs according to the signal conventions above.
 
-For attenuation, validate the entire buffer before modifying it. Require
-`peakLimit` in `(0,1]`. Find the absolute peak and apply one common gain only
+For attenuation, assume `peakLimit` is in `(0,1]`.
+Find the absolute peak and apply one common gain only
 when it exceeds the limit. Modify samples in place and return the applied
 gain; return 1 for silence or an already quiet buffer. Do not amplify quiet
 signals or clip individual samples. Later tasks reuse this method.
@@ -96,7 +97,6 @@ Verify independently:
 - The first sample is 0 at phase 0 and 0.5 at phase π/2.
 - Peak does not exceed A; A=0 produces silence.
 - Adding 2π to phase gives equivalent values; repeated calls return distinct arrays.
-- Invalid inputs, including frequency at Nyquist, are rejected.
 - Attenuation of `[2, -1, 0]` to peak 0.8 gives `[0.8, -0.4, 0]` and gain 0.4.
 - Silence and already quiet buffers remain unchanged with gain 1.
 
@@ -124,8 +124,8 @@ Add your code in:
 
 For additive synthesis, sum phase-zero sine components at
 `(i+1)*fundamentalFrequency`, with amplitude `harmonicAmplitudes[i]`.
-Validate every component, leave the amplitude array unchanged and return the
-unscaled sum. The assigned array contains five amplitudes, starting with the
+Assume valid component frequencies and amplitudes, leave the amplitude array
+unchanged and return the unscaled sum. The assigned array contains five amplitudes, starting with the
 fundamental. Reuse attenuation from Task 1.
 
 `mix` returns a new element-wise sum of equal-length, non-empty finite buffers,
@@ -158,8 +158,8 @@ Add your code in:
 - `Envelope.java`: `applyFade(samples, sampleRate, fadeInSeconds, fadeOutSeconds)`.
 
 Modify the buffer in place using linear ramps. Round fade durations to sample
-counts and reject negative/non-finite durations and overlapping fades before
-modifying any samples.
+counts. Assume fade durations are non-negative and the rounded fades do not
+overlap.
 
 - A fade rounding to zero samples leaves that end unchanged.
 - A fade rounding to one sample sets that endpoint to zero.
@@ -167,7 +167,7 @@ modifying any samples.
 
 The prepared runner compares fresh copies of a phase-π/2 sine with and without
 100 ms end fades. Verify zero endpoints, unchanged middle samples and unchanged
-buffer length. Test zero, one-sample and overlapping fades too, using a buffer
+buffer length. Test zero and one-sample fades too, using a buffer
 of ones to inspect the ramps. Tasks 5 and 8 reuse this method with 10 ms fades.
 
 Check without playback, then listen:
@@ -266,7 +266,7 @@ Use `java.util.Random(seed)` to generate independent uniform samples in
 and your assigned seed. Return a new buffer without normalization.
 
 Mean is the arithmetic average; RMS is the square root of the mean squared
-value. Both require a non-empty buffer of finite samples. Mean measures the
+value. Assume a non-empty buffer of finite samples. Mean measures the
 DC offset, while RMS measures effective amplitude. Silence also has mean zero,
 so mean alone is insufficient. Neither measurement proves randomness or a
 white spectrum.
@@ -301,9 +301,8 @@ Modify the buffer in place with a linear attack followed by a linear release,
 with no sustain:
 
 - Peak index: `Math.round(attackSeconds * sampleRate)`.
-- Require `0 < peakIndex < N-1`.
+- Assume the attack time gives `0 < peakIndex < N-1`.
 - Envelope is 0 at index 0, 1 at the peak, and 0 at index `N-1`.
-- Validate all inputs before modifying the buffer.
 
 The runner uses your assigned click frequency, amplitude 0.3 and duration
 60 ms. It compares attacks of 0.5, 5 and 15 ms. Each tone is attenuated before
@@ -343,9 +342,9 @@ fk = centerFrequency + (k - middle)*spacing
 x[n] = sum_k cos(2*pi*fk*(n/(double)fs - centerTime)) / componentCount
 ```
 
-Require an odd positive component count, finite positive spacing, center time
-in `[0,duration)`, and valid component frequencies. Return raw samples without
-fades or additional attenuation.
+Assume an odd positive component count, positive spacing, center time
+in `[0,duration)`, and component frequencies between 0 and Nyquist.
+Return raw samples without fades or additional attenuation.
 
 The runner uses center 440 Hz, spacing 2 Hz, counts 5/11/21, center time 0.2 s
 and duration 0.4 s. Playback uses a faded, attenuated copy; retain the raw signal
@@ -370,8 +369,8 @@ public signatures and parameter generator unchanged. All required tasks must
 build with `mvn clean compile` and run with the commands above.
 
 Exclude `target/`, IDE settings, compiled classes, audio files, plots and reports.
-Only code is submitted. Validation includes other valid and invalid inputs,
-not only your assigned parameters.
+Only code is submitted. Assessment includes other valid inputs, not only your
+assigned parameters. Handling invalid inputs is not part of the assignment.
 
 ## References
 
